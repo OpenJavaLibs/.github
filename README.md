@@ -4,23 +4,36 @@ This document describes the manual process for publishing a new version of `pojo
 
 ---
 
-## Publishing URLs
+# Publishing Resources
 
-**GitHub Repository**
+## GitHub Repository
 
 https://github.com/OpenJavaLibs/pojo-tester
 
-**Maven Central Artifact**
+## Maven Central Artifact
 
 https://central.sonatype.com/artifact/io.github.openjavalibs/pojo-tester
 
-**Sonatype Central Publishing Portal**
+## Sonatype Central
+
+### Deployments
 
 https://central.sonatype.com/publishing/deployments
 
+### Namespaces
+
+https://central.sonatype.com/publishing/namespaces
+
+Current verified namespaces:
+
+| Namespace | Status | Notes |
+|-----------|--------|-------|
+| `io.github.openjavalibs` | ✅ Verified | SNAPSHOTs enabled, Insights enabled |
+| `io.github.srikanthkapila` | ✅ Verified | Personal namespace |
+
 ---
 
-## Prerequisites
+# Prerequisites
 
 - GitHub repository is up to date.
 - Sonatype Central account is linked to the GitHub account that owns `io.github.openjavalibs`.
@@ -29,7 +42,7 @@ https://central.sonatype.com/publishing/deployments
 
 ---
 
-## 1. Create a Release Branch (Optional)
+# 1. Create a Release Branch (Optional)
 
 If releasing a bug fix:
 
@@ -41,7 +54,7 @@ Otherwise, release directly from `main`.
 
 ---
 
-## 2. Update the Version
+# 2. Update the Version
 
 Update the version in `pom.xml`.
 
@@ -53,7 +66,7 @@ Example:
 
 ---
 
-## 3. Commit the Changes
+# 3. Commit the Changes
 
 ```bash
 git add .
@@ -63,7 +76,7 @@ git push
 
 ---
 
-## 4. Build Locally
+# 4. Build Locally
 
 ```bash
 mvn clean verify
@@ -78,7 +91,7 @@ Verify that:
 
 ---
 
-## 5. Deploy
+# 5. Deploy
 
 ```bash
 mvn clean deploy
@@ -93,22 +106,27 @@ deploymentId: <deployment-id>
 
 ---
 
-## 6. Publish from Sonatype
+# 6. Publish from Sonatype
 
-1. Login to the Sonatype Central Publishing Portal.
-2. Navigate to **Publishing → Deployments**.
-3. Wait until the deployment status changes to **VALIDATED**.
-4. Click **Publish**.
+Open:
 
----
+https://central.sonatype.com/publishing/deployments
 
-## 7. Verify
-
-After a few minutes, verify that the new version appears on Maven Central.
+1. Wait until the deployment status becomes **VALIDATED**.
+2. Click **Publish**.
+3. Wait for the status to change to **PUBLISHED**.
 
 ---
 
-## 8. Tag the Release
+# 7. Verify Publication
+
+Verify the published artifact:
+
+https://central.sonatype.com/artifact/io.github.openjavalibs/pojo-tester
+
+---
+
+# 8. Tag the Release
 
 ```bash
 git tag v1.2.1
@@ -165,8 +183,9 @@ The artifact upload usually succeeds despite the build failure.
 
 ### Resolution
 
-- Verify the deployment exists in the Sonatype Central Publishing Portal.
-- If the deployment status is **VALIDATED**, publish it manually.
+- Open the Deployments page.
+- Verify the deployment exists.
+- If the status is **VALIDATED**, publish it manually.
 - Upgrade the `central-publishing-maven-plugin` before the next release.
 
 ---
@@ -175,14 +194,20 @@ The artifact upload usually succeeds despite the build failure.
 
 Maven Central versions are immutable.
 
-Update the version in `pom.xml` and deploy again.
+Increase the version in `pom.xml` and deploy again.
 
 ---
 
-## Useful Commands
+# Useful Commands
 
 ```bash
 git status
+
+git branch
+
+git checkout main
+
+git pull
 
 mvn clean verify
 
